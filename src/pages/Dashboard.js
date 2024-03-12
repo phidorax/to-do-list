@@ -1,6 +1,7 @@
 import StatsTasks from "../components/StatsTasks";
 import {storage} from "../services/LocalStorage";
 import ListTasks from "../components/ListTasks";
+import {TasksContext} from "../components/TasksContext";
 
 const Dashboard = () => {
 
@@ -19,7 +20,9 @@ const Dashboard = () => {
             <h1>Dashboard</h1>
             <StatsTasks tasks={storage.getTasks()}/>
             <h2>Tâches Urgentes</h2>
-            <ListTasks tasks={urgentTasks} />
+            <TasksContext.Provider value={urgentTasks}>
+                <ListTasks/>
+            </TasksContext.Provider>
         </div>
     )
 }

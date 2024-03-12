@@ -8,6 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import {Fab} from "@mui/material";
 import {Link} from "react-router-dom";
 import {tasksReducer, filterReducer} from "../reducers/DispatchTasks";
+import {TasksContext} from "../components/TasksContext";
 
 
 const Taches = () => {
@@ -63,16 +64,15 @@ const Taches = () => {
         <div>
             <h1>Tâches</h1>
             <div style={{display: 'flex', 'flexDirection': 'column'}}>
-                <FilterTasks filter={filterState.filter}
-                             setFilter={filter => dispatchFilter({type: 'setFilter', payload: filter})}/>
+                <FilterTasks setFilter={filter => dispatchFilter({type: 'setFilter', payload: filter})}/>
                 <br/>
-                <OrderTasks order={filterState.order}
-                            setOrder={order => dispatchFilter({type: 'setOrder', payload: order})}/>
+                <OrderTasks setOrder={order => dispatchFilter({type: 'setOrder', payload: order})}/>
                 <br/>
-                <SearchTasks search={filterState.search}
-                             setSearch={search => dispatchFilter({type: 'setSearch', payload: search})}/>
+                <SearchTasks setSearch={search => dispatchFilter({type: 'setSearch', payload: search})}/>
             </div>
-            <ListTasks tasks={filteredTasks}/>
+            <TasksContext.Provider value={filteredTasks}>
+                <ListTasks/>
+            </TasksContext.Provider>
             <Link to={'/edition/new'}>
                 <Fab size="medium" color="primary" aria-label="add" style={{position: "fixed", bottom: 32, right: 32}}>
                     <AddIcon/>

@@ -3,8 +3,11 @@ import './Tasks.css';
 import {Button, ButtonGroup, ListItem} from '@mui/material';
 import {Link} from "react-router-dom";
 import {storage} from "../services/LocalStorage";
+import {TaskContext} from "./TasksContext";
+import {useContext} from "react";
 
-export const DisplayTaskLine = ({task}) => {
+export const DisplayTaskLine = () => {
+    const task = useContext(TaskContext);
     const handleComplete = () => {
         // Mettre à jour la tâche
         task.completed = true;
@@ -25,7 +28,7 @@ export const DisplayTaskLine = ({task}) => {
         window.location.reload();
     }
     return (
-        <ListItem className='task-element'>
+        <ListItem className='task-element' style={{paddingTop: "0px", paddingBottom: "0px", marginBottom: "0px"}}>
             <h2>{task.title}</h2>
             <ButtonGroup variant="contained" aria-label="Action Tâche" style={{marginLeft: "10px"}}>
                 {!task.completed && <Button variant="contained" onClick={handleComplete}>Completed</Button>}
