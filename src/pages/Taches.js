@@ -1,9 +1,12 @@
 import ListTasks from "../components/ListTasks";
 import {storage} from "../services/LocalStorage";
-import {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import FilterTasks from "../components/FilterTasks";
 import OrderTasks from "../components/OrderTasks";
 import SearchTasks from "../components/SearchTasks";
+import AddIcon from '@mui/icons-material/Add';
+import {Fab, Grid} from "@mui/material";
+import {Link} from "react-router-dom";
 
 
 const Taches = () => {
@@ -30,7 +33,8 @@ const Taches = () => {
                 if (search) {
                     console.log("searching ...", search.target.value);
                     f = f && task.title.toLowerCase().includes(search.target.value.toLowerCase());
-                };
+                }
+                ;
                 return f;
             }
         );
@@ -62,6 +66,11 @@ const Taches = () => {
                 <SearchTasks search={search} setSearch={setSearch}/>
             </div>
             <ListTasks tasks={filteredTasks}/>
+            <Link to={'/edition/new'}>
+                <Fab size="medium" color="primary" aria-label="add" style={{position: "fixed", bottom: 32, right: 32}}>
+                    <AddIcon/>
+                </Fab>
+            </Link>
         </div>
     )
 }

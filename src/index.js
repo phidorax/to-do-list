@@ -7,6 +7,7 @@ import RootLayout from "./layouts/RootLayout";
 import Dashboard from "./pages/Dashboard";
 import Taches from "./pages/Taches";
 import Edition from "./pages/Edition";
+import NewEdition from "./pages/NewEdition";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
             {
                 path: "/taches",
                 element: <Taches/>
+            },
+            {
+                path: "/edition/new",
+                element: <NewEdition/>
             },
             {
                 path: "/edition/:taskId",

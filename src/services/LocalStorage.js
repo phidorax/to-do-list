@@ -8,6 +8,16 @@ export class LocalStorage {
     }
 
     addTask(task) {
+        // Check if id is present
+        if (!task.id) {
+            // Generate a new id with the maximum id + 1
+            task.id = this._tasks.reduce((max, t) => t.id > max ? t.id : max, 0) + 1;
+        }
+        // Check if id is present
+        if (this._tasks.find(t => t.id === task.id)) {
+            this.updateTask(task);
+            return;
+        }
         this._tasks.push(task);
         this.updateStorage();
     }
@@ -28,13 +38,9 @@ export class LocalStorage {
     }
 
     getTask(id) {
-        console.log(this._tasks)
-        var t = this._tasks.find(function (t) {
-            console.log('t.id',t.id, 'id', id)
-            return t.id == id;
+        return this._tasks.find(function (t) {
+            return t.id === id;
         });
-        console.log('t',t)
-        return t;
     }
 
     getTasks() {

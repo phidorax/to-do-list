@@ -1,4 +1,4 @@
-import {useParams, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {storage} from "../services/LocalStorage";
 import {Button, ButtonGroup, Checkbox, TextField} from "@mui/material";
 import * as React from "react";
@@ -10,9 +10,7 @@ import 'dayjs/locale/fr';
 import {useState} from "react";
 
 const Edition = () => {
-    const {taskId} = useParams();
-
-    const [task, setTask] = useState(storage.getTask(taskId));
+    const [task, setTask] = useState({});
 
     const [title, setTitle] = useState(task.title);
 
@@ -44,15 +42,16 @@ const Edition = () => {
 
     const handleSaveClick = () => {
         // Enregistrer la tâche
-        storage.updateTask(task);
+        storage.addTask(task);
         // Revenir à la page précédente
         navigate(-1);
     }
 
     return (
         <div>
-            <h1>Édition de la tâche avec l'id {taskId}</h1>
-            <TextField id="task-title" label="Titre de la tâche" variant="outlined" value={title} onChange={handleTitleChange}/>
+            <h1>Ajout d'une nouvelle tâche</h1>
+            <TextField id="task-title" label="Titre de la tâche" variant="outlined" value={title}
+                       onChange={handleTitleChange}/>
             <br/>
             <br/>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'fr'}>
