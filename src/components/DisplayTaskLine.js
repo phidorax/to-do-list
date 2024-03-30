@@ -1,10 +1,21 @@
 import './Tasks.css';
 
-import {Button, ButtonGroup, ListItem} from '@mui/material';
+import {
+    Button,
+    ButtonGroup,
+    Card,
+    CardActions,
+    CardContent,
+    Typography
+} from '@mui/material';
 import {Link} from "react-router-dom";
 import {storage} from "../services/LocalStorage";
 import {TaskContext} from "./TasksContext";
-import {useContext} from "react";
+import React, {useContext} from "react";
+import DeleteIcon from '@mui/icons-material/Delete';
+import Box from "@mui/material/Box";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import moment from "moment";
 
 export const DisplayTaskLine = () => {
     const task = useContext(TaskContext);
@@ -27,16 +38,33 @@ export const DisplayTaskLine = () => {
         // Recharger la page
         window.location.reload();
     }
-    return (
-        <ListItem className='task-element' style={{paddingTop: "0px", paddingBottom: "0px", marginBottom: "0px"}}>
-            <h2>{task.title}</h2>
-            <ButtonGroup variant="contained" aria-label="Action Tâche" style={{marginLeft: "10px"}}>
-                {!task.completed && <Button variant="contained" onClick={handleComplete}>Completed</Button>}
-                <Link to={'/edition/' + task.id}>
-                    <Button variant="contained">Edit</Button>
-                </Link>
-                <Button variant="contained" color="error" onClick={handleDelete}>Delete</Button>
-            </ButtonGroup>
-        </ListItem>
-    );
+
+    if (!task.description) {
+        task.description = '';
+    }
+    const taskDescription = task.description.length > 150
+        ? task.description.substring(0, 150) + '...'
+        : task.description;
+
+    return <Box minWidth={300} sx={{margin: "16px"}}>
+        <Card sx={{margin: "8px", maxWidth: "320px"}}>
+            <CardContent>
+                <Typography variant="h5" component="h2">{task.title}</Typography>
+                <Typography variant="body2"
+                            color="text.secondary">{taskDescription}</Typography>
+                <div style={{height: "25px"}}/>
+               <div style={{display: 'flex', justifyContent: 'center'}}>
+                <AccessTimeIcon style={{marginRight: '8px'}}/>{moment(task.deadline).format('DD/MM/YYYY')}
+               </div>
+            </CardContent>
+            <CardActions
+                sx={{display: 'flex', marginBottom: 2, marginLeft: 0, marginRight: 0, justifyContent: "center"}}>
+                <ButtonGroup variant="contained" aria-label="Action Tâche">
+                    {!task.completed && <Button variant="contained" onClick={handleComplete}>Terminer</Button>}
+                    <Link to={'/edition/' + task.id}><Button variant="contained">Éditer</Button></Link>
+                    <Button variant="contained" color="error" onClick={handleDelete}><DeleteIcon/></Button>
+                </ButtonGroup>
+            </CardActions>
+        </Card>
+    </Box>
 }

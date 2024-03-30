@@ -4,6 +4,7 @@ export class LocalStorage {
             LocalStorage.instance = this;
         }
         this._tasks = localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')) : [];
+        this._theme = localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light';
         return LocalStorage.instance;
     }
 
@@ -21,7 +22,11 @@ export class LocalStorage {
             return;
         }
         // Keep only date part of deadline
-        task.deadline = task.deadline.format('YYYY-MM-DD');
+        // Si la date n'est pas une chaîne de caractères
+        if (typeof task.deadline !== 'string') {
+            // Transforme la date en chaîne de caractères
+            task.deadline = task.deadline.toISOString().slice(0, 10);
+        }
         // Add title if not present
         if (!task.title) {
             task.title = '';
@@ -30,6 +35,7 @@ export class LocalStorage {
         if (!task.completed) {
             task.completed = false;
         }
+        task.changeDate = null;
         this._tasks.push(task);
         this.updateStorage();
     }
@@ -49,12 +55,28 @@ export class LocalStorage {
         if (!task.completed) {
             task.completed = false;
         }
+        // Si la date n'est pas une chaîne de caractères
+        if (typeof task.deadline !== 'string') {
+            // Convertion object vers date
+            const dateObject = new Date(task.deadline);
+            // Transforme la date en chaîne de caractères
+            let month = dateObject.getMonth() + 1;
+            if (month < 10) {
+                month = '0' + month;
+            }
+            let day = dateObject.getDate();
+            if (day < 10) {
+                day = '0' + day;
+            }
+            task.deadline = dateObject.getFullYear() + '-' + month + '-' + day;
+        }
         this._tasks[index] = task;
         this.updateStorage();
     }
 
     updateStorage() {
         localStorage.setItem('tasks', JSON.stringify(this._tasks));
+        localStorage.setItem('theme', this._theme);
     }
 
     getTask(id) {
@@ -69,6 +91,18 @@ export class LocalStorage {
 
     getTasks() {
         return this._tasks;
+    }
+
+    setTheme(theme) {
+        if (theme !== 'light' && theme !== 'dark') {
+            throw Error('Unknown theme: ' + theme);
+        }
+        this._theme = theme;
+        this.updateStorage();
+    }
+
+    getTheme() {
+        return this._theme;
     }
 }
 

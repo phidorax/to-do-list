@@ -1,13 +1,13 @@
+import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import RootLayout from "./layouts/RootLayout";
 import Dashboard from "./pages/Dashboard";
-import Taches from "./pages/Taches";
+import Tasks from "./pages/Tasks";
 import Edition from "./pages/Edition";
 import NewEdition from "./pages/NewEdition";
+import Home from "./pages/Home";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([
@@ -17,15 +17,15 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <App/>
+                element: <Home/>
             },
             {
                 path: "/dashboard",
                 element: <Dashboard/>
             },
             {
-                path: "/taches",
-                element: <Taches/>
+                path: "/tasks",
+                element: <Tasks/>
             },
             {
                 path: "/edition/new",

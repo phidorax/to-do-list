@@ -17,7 +17,7 @@ const Dashboard = () => {
 
     return (
         <div>
-            <h1>Dashboard</h1>
+            <h1>Tableau de bord</h1>
             <StatsTasks tasks={storage.getTasks()}/>
             <h2>Tâches Urgentes</h2>
             <TasksContext.Provider value={urgentTasks}>

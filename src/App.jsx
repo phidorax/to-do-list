@@ -1,11 +1,7 @@
+import * as React from "react";
 
 const App = () => {
-
-    return (
-        <div className="app-content">
-            <h1>Homepage</h1>
-        </div>
-    );
+    return (<div className="app-content"/>);
 }
 
 export default App;

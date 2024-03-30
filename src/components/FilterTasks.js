@@ -4,9 +4,9 @@ import React from "react";
 const FilterTasks = ({setFilter}) => {
     return (
         <ButtonGroup variant="contained" aria-label="Filter Task">
-        <Button variant="contained" onClick={() => setFilter('all')}>All</Button>
-            <Button variant="contained" onClick={() => setFilter('completed')}>Completed</Button>
-            <Button variant="contained" onClick={() => setFilter('uncompleted')}>Uncompleted</Button>
+            <Button variant="contained" onClick={() => setFilter('all')}>Tous</Button>
+            <Button variant="contained" onClick={() => setFilter('completed')}>Achevé</Button>
+            <Button variant="contained" onClick={() => setFilter('uncompleted')}>Inachevé</Button>
         </ButtonGroup>
     );
 }

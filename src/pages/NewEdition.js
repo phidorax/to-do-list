@@ -1,14 +1,12 @@
 import {useNavigate} from "react-router-dom";
 import {storage} from "../services/LocalStorage";
-import {Button, ButtonGroup, Checkbox, TextField} from "@mui/material";
 import * as React from "react";
-import {DatePicker} from '@mui/x-date-pickers/DatePicker';
-import {LocalizationProvider} from "@mui/x-date-pickers";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {useReducer} from "react";
 import dayjs from "dayjs";
 import 'dayjs/locale/fr';
-import {useReducer} from "react";
 import {taskReducer} from "../reducers/DispatchTask";
+import EditTask from "../components/EditTask";
+import {TaskContext} from "../components/TasksContext";
 
 const NewEdition = () => {
     const [task, dispatchTask] = useReducer(taskReducer, {}, () => {
@@ -23,6 +21,9 @@ const NewEdition = () => {
         dispatchTask({type: 'titleChange', title: event.target.value});
     }
 
+    const handleDescriptionChange = (event) => {
+        dispatchTask({type: 'descriptionChange', description: event.target.value});
+    }
 
     const handleDeadlineChange = (newValue) => {
         dispatchTask({type: 'deadlineChange', deadline: newValue});
@@ -63,22 +64,11 @@ const NewEdition = () => {
     return (
         <div>
             <h1>Ajout d'une nouvelle tâche</h1>
-            <TextField id="task-title" label="Titre de la tâche" variant="outlined" value={task.title}
-                       onChange={handleTitleChange}/>
-            <br/>
-            <br/>
-            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'fr'}>
-                <DatePicker label={"Délai d'exécution de la tâche"}
-                            value={dayjs(task.deadline)}
-                            onChange={handleDeadlineChange}
-                />
-            </LocalizationProvider>
-            <p>Tâche accomplie:<Checkbox id="task-completed" checked={task.completed} onChange={handleCheckboxChange}/>
-            </p>
-            <ButtonGroup variant="contained" aria-label="Edition-Menu">
-                <Button variant="contained" onClick={handleSaveClick}>Valider</Button>
-                <Button variant="contained" onClick={handleBackClick}>Annuler</Button>
-            </ButtonGroup>
+            <TaskContext.Provider value={task} key={task.id}>
+                <EditTask onTitleChange={handleTitleChange} onDescriptionChange={handleDescriptionChange}
+                          onDateChange={handleDeadlineChange} onCompletedChange={handleCheckboxChange}
+                          onValidClick={handleSaveClick} onCancelClick={handleBackClick} canDelete={false}/>
+            </TaskContext.Provider>
         </div>
     )
 }

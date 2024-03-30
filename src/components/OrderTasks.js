@@ -4,8 +4,8 @@ import React from "react";
 const OrderTasks = ({setOrder}) => {
     return (
         <ButtonGroup variant="contained" aria-label="Filter Task">
-            <Button variant="contained" onClick={() => setOrder('asc')}>Asc</Button>
-            <Button variant="contained" onClick={() => setOrder('desc')}>Desc</Button>
+            <Button variant="contained" onClick={() => setOrder('asc')}>Croissant</Button>
+            <Button variant="contained" onClick={() => setOrder('desc')}>Décroissant</Button>
         </ButtonGroup>
     );
 }

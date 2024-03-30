@@ -3,6 +3,9 @@ export function taskReducer(state, action) {
         case 'titleChange': {
             return {...state, title: action.title};
         }
+        case 'descriptionChange': {
+            return {...state, description: action.description};
+        }
         case 'deadlineChange': {
             return {...state, deadline: action.deadline};
         }
